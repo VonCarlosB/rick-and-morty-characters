@@ -24,13 +24,13 @@ function updateView() {
     charList.innerHTML = null
     fetch(`https://rickandmortyapi.com/api/character/?page=${page}`).then((response) => {
         if (!response.ok) {
-            throw new Error('La solicitud no ha podido ser resuelta');
+            throw new Error(`Error: ${response.status}`);
         } else {
             return response.json();
         }
-    }).then((pj) => {
-        maxPage = pj.info.pages
-        pj.results.map((character) => {
+    }).then((data) => {
+        maxPage = data.info.pages
+        data.results.map((character) => {
             createListItemWithLiteralString(character)
         })
     }).catch((error) => {
