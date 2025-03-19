@@ -22,7 +22,7 @@ updateView()
 
 function updateView() {
     charList.innerHTML = null
-    fetch('https://rickandmortyapi.com/api/character/?page='+page).then((response) => {
+    fetch(`https://rickandmortyapi.com/api/character/?page=${page}`).then((response) => {
         if (!response.ok) {
             throw new Error('La solicitud no ha podido ser resuelta');
         } else {
@@ -31,6 +31,7 @@ function updateView() {
     }).then((pj) => {
         maxPage = pj.info.pages
         pj.results.map((character) => {
+            /*
             let listItem = document.createElement('li')
 
             let image = document.createElement('img')
@@ -52,6 +53,14 @@ function updateView() {
             listItem.appendChild(species)
             
             charList.appendChild(listItem)
+            */
+            charList.innerHTML += `
+            <li>
+                <img src = "${character.image}">
+                <p><b>Name: </b>${character.name}</p>
+                <p><b>Species: </b>${character.species}</p>
+            </li>
+            `
         })
     }).catch((error) => {
         console.log('Error: '+error);
