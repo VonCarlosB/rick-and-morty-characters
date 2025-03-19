@@ -2,7 +2,7 @@ const charList = document.getElementById('character-list')
 const prev = document.getElementById('prev-page')
 const next = document.getElementById('next-page')
 let page = 1
-let maxPage = 100
+let maxPage
 
 prev.addEventListener('click', ()=> {
     if(page>1){
@@ -31,38 +31,45 @@ function updateView() {
     }).then((pj) => {
         maxPage = pj.info.pages
         pj.results.map((character) => {
-            /*
-            let listItem = document.createElement('li')
+            createListItemWithLiteralString(character)
+        })
+    }).catch((error) => {
+        console.log('Error: '+error);
+    });
+}
 
-            let image = document.createElement('img')
-            image.setAttribute('src', character.image)
-            listItem.appendChild(image)
+/* First try, works, but it's extensive and a bit cumbersome*/
+function createListItem(character) {
+    let listItem = document.createElement('li')
 
-            let nombre = document.createElement('b')
-            nombre.innerText = 'Name: '
-            let name = document.createElement('p')
-            name.appendChild(nombre)
-            name.append(character.name)
-            listItem.appendChild(name)
+    let image = document.createElement('img')
+    image.setAttribute('src', character.image)
+    listItem.appendChild(image)
 
-            let especie = document.createElement('b')
-            especie.innerText = 'Species: '
-            let species = document.createElement('p')
-            species.appendChild(especie)
-            species.append(character.species)
-            listItem.appendChild(species)
-            
-            charList.appendChild(listItem)
-            */
-            charList.innerHTML += `
+    let nombre = document.createElement('b')
+    nombre.innerText = 'Name: '
+    let name = document.createElement('p')
+    name.appendChild(nombre)
+    name.append(character.name)
+    listItem.appendChild(name)
+
+    let especie = document.createElement('b')
+    especie.innerText = 'Species: '
+    let species = document.createElement('p')
+    species.appendChild(especie)
+    species.append(character.species)
+    listItem.appendChild(species)
+    
+    charList.appendChild(listItem)
+}
+
+/* IN USE, second try after learning about literal string. Reduced size */
+function createListItemWithLiteralString(character) {
+    charList.innerHTML += `
             <li>
                 <img src = "${character.image}">
                 <p><b>Name: </b>${character.name}</p>
                 <p><b>Species: </b>${character.species}</p>
             </li>
             `
-        })
-    }).catch((error) => {
-        console.log('Error: '+error);
-    });
 }
